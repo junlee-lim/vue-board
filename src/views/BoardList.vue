@@ -21,7 +21,8 @@ const moveToDetail = id => {
 
 <template>
 <h3>게시판</h3>
-<table>
+<p v-if="state.list.length === 0">작성된 글이 하나도 없습니다.</p>
+<table v-else>
     <tr>
         <th>id</th>
         <th>title</th>

@@ -23,24 +23,20 @@ const submit = async () => {
     return;
   }
 
-  if(state.board.id === 0){
-    const result = await httpService.save(state.board);
-    console.log(result);
+  state.board.id === 0 ? (await httpService.save(state.board) ? router.push('/')  : alert('failed') ):
+                          (await httpService.update(state.board) ? router.push(`/detail/${state.board.id}`) : alert('failed'))
 
-    if(result === 'success'){
-      state.board = '';
-      router.push({
-        path: '/'
-      });
-    }else{
-      alert('failed');
-    }
-  }else{
-    const result = await httpService.update(state.board);
-    if(result){
-      router.push(`/detail/${state.board.id}`)
-    }
-  }
+  // if(state.board.id === 0){
+  //   if(await httpService.save(state.board)){
+  //     router.push('/');
+  //   } else{
+  //     alert('failed');
+  //   }
+  // } else{
+  //   if(await httpService.update(state.board)){
+  //     router.push(`/detail/${state.board.id}`)
+  //   }
+  // }
 }
 
 onMounted(async () => {
@@ -53,7 +49,8 @@ onMounted(async () => {
 </script>
 
 <template>
-<h3>dddd</h3>
+<h3 v-if="state.board.title && state.board.contents">글 수정</h3>
+<h3 v-if="!state.board.title && !state.board.contents">글 작성</h3>
 <div>
     <label>title: <input type="text" v-model="state.board.title"></label>
 </div>
